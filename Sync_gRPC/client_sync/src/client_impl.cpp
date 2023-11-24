@@ -4,6 +4,7 @@
 ClientImpl::ClientImpl(std::shared_ptr<grpc::Channel> channel)
 : _stub(data::ProtoService::NewStub(channel))
 {
+    nr = 0;
 }
 
 void ClientImpl::ProtoMethod(const std::string &name)
@@ -11,7 +12,7 @@ void ClientImpl::ProtoMethod(const std::string &name)
 
     data::Request request;
     request.set_request(name);
-    
+
     // send request
     data::Response response;
     grpc::ClientContext context;
@@ -20,9 +21,11 @@ void ClientImpl::ProtoMethod(const std::string &name)
 
     // Handle response
     if (status.ok()) {
-        std::cout<<response.response()<<std::endl;
+        nr = 1;
+        //std::cout<<response.response()<<std::endl;
     } else {
-        std::cerr << status.error_code() << ": " << status.error_message() << std::endl;
+        nr = 2;
+        //std::cerr << status.error_code() << ": " << status.error_message() << std::endl;
     }
     
 }

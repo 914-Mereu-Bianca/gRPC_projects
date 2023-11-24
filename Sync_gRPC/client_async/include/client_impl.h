@@ -19,7 +19,8 @@ public:
     void ProtoMethod(const std::string &name);
 
     void AsyncCompleteRPC();
-       
+    
+    std::vector<int> arr;
 private:
 
     
@@ -32,6 +33,7 @@ private:
     
     std::unique_ptr<data::ProtoService::Stub> _stub;
     grpc::CompletionQueue _queue;
+    
 
 };
 

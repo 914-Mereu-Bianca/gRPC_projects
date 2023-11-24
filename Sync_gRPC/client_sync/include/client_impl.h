@@ -18,6 +18,7 @@ public:
             
     void ProtoMethod(const std::string &name);
 
+    int nr;
        
 private:
 

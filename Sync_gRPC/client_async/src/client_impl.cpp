@@ -4,6 +4,7 @@
 ClientImpl::ClientImpl(std::shared_ptr<grpc::Channel> channel)
 : _stub(data::ProtoService::NewStub(channel))
 {
+    arr.resize(20000, 0);
 }
 
 void ClientImpl::ProtoMethod(const std::string &name)
@@ -35,10 +36,12 @@ void ClientImpl::AsyncCompleteRPC()
         auto* call = static_cast<AsyncClientCall*>(tag);
         if (call) {
             if (call->status.ok()) {
-                std::cout << "Client received: " << call->response.response() << std::endl;
+                arr[std::stoi(call->response.response())] = 1;
+                //std::cout << "Client received: " << call->response.response() << std::endl;
             } else {
-                std::cerr << call->status.error_code() << ": " << call->status.error_message() << std::endl;
-                std::cout << "Client received: RPC failed" << std::endl;
+                //arr[std::stoi(call->response.response())] = 2;
+                //std::cerr << call->status.error_code() << ": " << call->status.error_message() << std::endl;
+                //std::cout << "Client received: RPC failed" << std::endl;
             }
         } else {
             err = "A client call was deleted";
