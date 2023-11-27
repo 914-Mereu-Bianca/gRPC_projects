@@ -1,6 +1,5 @@
 #include <grpc++/grpc++.h>
 #include "../include/server_impl.h"
-#include "src/cpp/server/dynamic_thread_pool.h"
 #include <chrono>
 #include <thread>
 #include "server_impl.h"
@@ -49,6 +48,8 @@ void ServiceImpl::CallData::Proceed() {
             // the one for this CallData. The instance will deallocate itself as
             // part of its FINISH state.
             new CallData{_service, _queue};
+
+            std::this_thread::sleep_for(std::chrono::seconds(3));
 
             _response.set_response("Hello " + _request.request());
             std::cout<<_request.request()<<std::endl;
