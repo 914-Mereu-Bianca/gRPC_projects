@@ -32,9 +32,9 @@ void ServiceImpl::RunServer()
     // The code below sets the maximum number of threads that can run simultaneously 
     // This number will be updated only if it is less than the system-imposed limit on the number of threads that can be created
 
-    grpc::ResourceQuota rq;
+    /*grpc::ResourceQuota rq;
     rq.SetMaxThreads(20);
-    builder.SetResourceQuota(rq);
+    builder.SetResourceQuota(rq);*/
     
     builder.RegisterService(this);
 
