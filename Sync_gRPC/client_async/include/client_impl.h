@@ -20,7 +20,10 @@ public:
 
     void AsyncCompleteRPC();
     
-    std::vector<int> arr;
+    inline void setArrayValueAtPoz(int i, int val) { arr[i] = val; }
+
+    inline int getArrayValue(int i) { return arr[i]; }
+
 private:
 
     
@@ -33,7 +36,9 @@ private:
     
     std::unique_ptr<data::ProtoService::Stub> _stub;
     grpc::CompletionQueue _queue;
-    
+
+    // the following array will contain 1 on the positions of the requests that were successfully processed and 0 for the ones that were not
+    std::vector<int> arr;
 
 };
 

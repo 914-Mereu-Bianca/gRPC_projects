@@ -1,8 +1,6 @@
 #include <grpc++/grpc++.h>
 #include <grpcpp/resource_quota.h>
 #include "../include/server_impl.h"
-#include "src/cpp/server/dynamic_thread_pool.h"
-#include <grpcpp/ext/proto_server_reflection_plugin.h>
 #include <chrono>
 #include <thread>
 #include "server_impl.h"
@@ -15,8 +13,8 @@ grpc::Status ServiceImpl::ProtoMethod(grpc::ServerContext *context, const data::
 {
     response->set_response(request->request());
     
-    //if(stoi(request->request())%2)
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::this_thread::sleep_for(std::chrono::seconds(3));  // the request is taking longer, so we can see how many of them can run simultaneously
+
     std::cout<<request->request()<<std::endl;
     return grpc::Status();
 }
@@ -29,11 +27,13 @@ void ServiceImpl::RunServer()
     
     grpc::ServerBuilder builder;
     
-
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
     
+    // The code below sets the maximum number of threads that can run simultaneously 
+    // This number will be updated only if it is less than the system-imposed limit on the number of threads that can be created
+
     grpc::ResourceQuota rq;
-    rq.SetMaxThreads(0);
+    rq.SetMaxThreads(20);
     builder.SetResourceQuota(rq);
     
     builder.RegisterService(this);

@@ -9,14 +9,6 @@ ServiceImpl::ServiceImpl(const std::string &ip, uint16_t port)
     : ip_(ip), port_(port) {}
 
 
-/*grpc::Status ServiceImpl::ProtoMethod(grpc::ServerContext *context, const data::Request* request, data::Response *response)
-{
-    response->set_message("Hello " + request->name());
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-    return grpc::Status();
-}*/
-
-
 void ServiceImpl::RunServer()
 {
     std::string server_address = ip_ + ":" + std::to_string(port_);
@@ -58,11 +50,6 @@ void ServiceImpl::CallData::Proceed() {
             // part of its FINISH state.
             new CallData{_service, _queue};
 
-            //if(stoi(_request.request())%2) 
-            //    for(int i = 0; i<=10000; i++) 
-            //        for(int j = 0; j<=10000; j++)
-
-
             _response.set_response("Hello " + _request.request());
             std::cout<<_request.request()<<std::endl;
             
@@ -84,12 +71,6 @@ void ServiceImpl::HandleRPCs() {
     void* tag;
     bool ok;
     while (true) {
-        /*if (_queue->Next(&tag, &ok) && ok) {
-            static_cast<CallData*>(tag)->Proceed();
-        } else { 
-            std::cerr << "Something went wrong" << std::endl;
-            abort();
-        }*/
         GPR_ASSERT(_queue->Next(&tag, &ok));
         GPR_ASSERT(ok);
         static_cast<CallData*>(tag)->Proceed();

@@ -36,10 +36,9 @@ void ClientImpl::AsyncCompleteRPC()
         auto* call = static_cast<AsyncClientCall*>(tag);
         if (call) {
             if (call->status.ok()) {
-                arr[std::stoi(call->response.response())] = 1;
+                setArrayValueAtPoz(std::stoi(call->response.response()), 1);
                 //std::cout << "Client received: " << call->response.response() << std::endl;
             } else {
-                //arr[std::stoi(call->response.response())] = 2;
                 //std::cerr << call->status.error_code() << ": " << call->status.error_message() << std::endl;
                 //std::cout << "Client received: RPC failed" << std::endl;
             }

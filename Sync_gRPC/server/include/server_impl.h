@@ -9,10 +9,9 @@ public:
         
     void RunServer();
 
-    //~ServiceImpl();
-
 private:
 
+    // This method is called when the client makes the request
     grpc::Status ProtoMethod(grpc::ServerContext* context, const data::Request* request, data::Response* response) override;
     
     std::string ip_;

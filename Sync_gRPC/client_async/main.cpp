@@ -6,34 +6,29 @@
 
 int main() {
 
-    size_t max_size = std::numeric_limits<size_t>::max();
-
-    std::cout << "Maximum value for size_t: " << max_size << std::endl;
-
     ClientImpl client{grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials())};
 
     std::thread thread{&ClientImpl::AsyncCompleteRPC, &client};
     
-    for (int i = 0; i < 3000; ++i) {   //3425
+    int n = 40;
+
+    for (int i = 0; i < n; ++i) {   
         std::string request{std::to_string(i)};
         
         client.ProtoMethod(request);
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(10));
+    std::this_thread::sleep_for(std::chrono::seconds(10)); // wait 10 seconds before checking the successfully requests because the code is blocked forever
 
-    int i;
+    int count = 0;
 
-    for(i = 0; i < 3000; i++){
-        std::cout<<client.arr[i]<<" ";
+    for(int i = 0; i < n; i++){
+        std::cout<<client.getArrayValue(i)<<" ";
+        if (client.getArrayValue(i))
+            count++;
     }
-    std::cout<<std::endl;
 
-    for(i = 19999; i > 0; i--){
-        if (client.arr[i] == true)
-            break;
-    }
-    std::cout<<i<<std::endl;
+    std::cout << std::endl << "The nr of clients that send the request successfully is: " << count << std::endl;
     
     thread.join();
 

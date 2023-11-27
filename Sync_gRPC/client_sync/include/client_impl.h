@@ -18,11 +18,14 @@ public:
             
     void ProtoMethod(const std::string &name);
 
-    int nr;
+    inline int getNr() { return nr; }    
        
 private:
 
     std::unique_ptr<data::ProtoService::Stub> _stub;
+
+    // The nr has a value of 1 if the client has sent the request successfully or 2 if it resulted in an error
+    int nr;
 
 };
 

@@ -11,7 +11,6 @@ find_package(Threads REQUIRED)
 
 # Includes the Server header directory
 include_directories(${CMAKE_SOURCE_DIR}/server/include)
-include_directories(~/grpc)
 
 # Find Protobuf installation
 # Looks for protobuf-config.cmake file installed by Protobuf's cmake installation.

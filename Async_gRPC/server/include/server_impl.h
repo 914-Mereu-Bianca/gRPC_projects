@@ -33,8 +33,6 @@ private:
 
     void HandleRPCs();
 
-    //grpc::Status ProtoMethod(grpc::ServerContext* context, const data::Request* request, data::Response* response) override;
-    
     data::ProtoService::AsyncService _service;
     std::unique_ptr<grpc::ServerCompletionQueue> _queue;
     std::unique_ptr<grpc::Server> _server;
